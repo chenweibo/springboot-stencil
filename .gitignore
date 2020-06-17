@@ -34,3 +34,5 @@ build/
 mvnw.cmd
 mvnw
 .bzrignore
+.DS_Store
+
