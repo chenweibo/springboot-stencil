@@ -1,6 +1,7 @@
 package com.chen.stencil.utils;
 
 
+import cn.hutool.core.date.DateUtil;
 import com.chen.stencil.common.exception.CustomException;
 import com.chen.stencil.common.response.ResultCode;
 import com.chen.stencil.pojo.Audience;
@@ -33,12 +34,13 @@ public class JwtTokenUtil {
             Claims claims = Jwts.parser()
                     .setSigningKey(DatatypeConverter.parseBase64Binary(base64Security))
                     .parseClaimsJws(jsonWebToken).getBody();
+            // log.error("===== Token过期 =====", claims);
             return claims;
         } catch (ExpiredJwtException eje) {
-            log.error("===== Token过期 =====", eje);
+            //log.error("===== Token过期 =====", eje);
             throw new CustomException(ResultCode.PERMISSION_TOKEN_EXPIRED);
         } catch (Exception e) {
-            log.error("===== token解析异常 =====", e);
+            //log.error("===== token解析异常 =====", e);
             throw new CustomException(ResultCode.PERMISSION_TOKEN_INVALID);
         }
     }
@@ -56,9 +58,8 @@ public class JwtTokenUtil {
         try {
             // 使用HS256加密算法
             SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
-
             long nowMillis = System.currentTimeMillis();
-            Date now = new Date(nowMillis);
+            Date now = DateUtil.date(nowMillis);
 
             //生成签名密钥
             byte[] apiKeySecretBytes = DatatypeConverter.parseBase64Binary(audience.getBase64Secret());
@@ -77,11 +78,15 @@ public class JwtTokenUtil {
                     .setIssuedAt(new Date())        // 是一个时间戳，代表这个JWT的签发时间；
                     .setAudience(audience.getName())          // 代表这个JWT的接收对象；
                     .signWith(signatureAlgorithm, signingKey);
-            //添加Token过期时间
-            int TTLMillis = audience.getExpiresSecond();
+            //添加Token过期时间 秒转long 转毫秒
+            Long TTLMillis = Long.valueOf(audience.getExpiresSecond()) * 1000;
+
+            // System.out.println(TTLMillis);
+            // System.out.println(nowMillis);
             if (TTLMillis >= 0) {
                 long expMillis = nowMillis + TTLMillis;
                 Date exp = new Date(expMillis);
+                System.out.println(exp);
                 builder.setExpiration(exp)  // 是一个时间戳，代表这个JWT的过期时间；
                         .setNotBefore(now); // 是一个时间戳，代表这个JWT生效的开始时间，意味着在这个时间之前验证JWT是会失败的
             }
@@ -89,7 +94,7 @@ public class JwtTokenUtil {
             //生成JWT
             return builder.compact();
         } catch (Exception e) {
-            log.error("签名失败", e);
+            //log.error("签名失败", e);
             throw new CustomException(ResultCode.PERMISSION_SIGNATURE_ERROR);
         }
     }
