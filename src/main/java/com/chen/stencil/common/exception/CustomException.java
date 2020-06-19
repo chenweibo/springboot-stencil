@@ -4,6 +4,7 @@ import com.chen.stencil.common.response.ResultCode;
 
 import java.text.MessageFormat;
 
+
 public class CustomException extends RuntimeException {
 
     //错误代码

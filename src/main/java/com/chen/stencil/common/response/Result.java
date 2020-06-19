@@ -47,6 +47,10 @@ public class Result<T> {
         return new Result(message);
     }
 
+    public static <T> Result ValidFAIL( T data) {
+        return new Result(ResultCode.PARAM_IS_INVALID, data);
+    }
+
     public int getCode() {
         return code;
     }

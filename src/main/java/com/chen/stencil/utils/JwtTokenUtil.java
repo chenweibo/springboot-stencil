@@ -8,6 +8,7 @@ import com.chen.stencil.pojo.Audience;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
@@ -22,6 +23,9 @@ public class JwtTokenUtil {
 
     public static final String TOKEN_PREFIX = "Bearer ";
 
+    @Autowired
+    RedisUtils redisUtils;
+
     /**
      * 解析jwt
      *
@@ -34,7 +38,6 @@ public class JwtTokenUtil {
             Claims claims = Jwts.parser()
                     .setSigningKey(DatatypeConverter.parseBase64Binary(base64Security))
                     .parseClaimsJws(jsonWebToken).getBody();
-            // log.error("===== Token过期 =====", claims);
             return claims;
         } catch (ExpiredJwtException eje) {
             //log.error("===== Token过期 =====", eje);
@@ -81,12 +84,9 @@ public class JwtTokenUtil {
             //添加Token过期时间 秒转long 转毫秒
             Long TTLMillis = Long.valueOf(audience.getExpiresSecond()) * 1000;
 
-            // System.out.println(TTLMillis);
-            // System.out.println(nowMillis);
             if (TTLMillis >= 0) {
                 long expMillis = nowMillis + TTLMillis;
                 Date exp = new Date(expMillis);
-                System.out.println(exp);
                 builder.setExpiration(exp)  // 是一个时间戳，代表这个JWT的过期时间；
                         .setNotBefore(now); // 是一个时间戳，代表这个JWT生效的开始时间，意味着在这个时间之前验证JWT是会失败的
             }

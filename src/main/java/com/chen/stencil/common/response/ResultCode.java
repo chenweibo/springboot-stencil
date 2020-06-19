@@ -3,10 +3,10 @@ package com.chen.stencil.common.response;
 public enum ResultCode {
 
     /* 成功状态码 */
-    SUCCESS(200,"操作成功！"),
+    SUCCESS(20000, "操作成功！"),
 
     /* 错误状态码 */
-    FAIL(-1,"操作失败！"),
+    FAIL(-1, "操作失败！"),
 
 
     /* 参数错误：10001-19999 */
@@ -14,10 +14,11 @@ public enum ResultCode {
     PARAM_IS_BLANK(10002, "参数为空"),
     PARAM_TYPE_BIND_ERROR(10003, "参数格式错误"),
     PARAM_NOT_COMPLETE(10004, "参数缺失"),
+    METHOD_NOT_SUPPORT(10005, "请求类型不支持"),
 
     /* 用户错误：20001-29999*/
     USER_NOT_LOGGED_IN(40001, "用户未登录，请先登录"),
-    USER_LOGIN_ERROR(20002, "账号不存在或密码错误"),
+    USER_LOGIN_ERROR(20002, "密码错误"),
     USER_ACCOUNT_FORBIDDEN(20003, "账号已被禁用"),
     USER_NOT_EXIST(20004, "用户不存在"),
     USER_HAS_EXISTED(20005, "用户已存在"),
@@ -66,23 +67,25 @@ public enum ResultCode {
 
 
     /* 权限错误：70001-79999 */
-    PERMISSION_UNAUTHENTICATED(70001,"此操作需要登陆系统！"),
-    PERMISSION_UNAUTHORISE(70002,"权限不足，无权操作！"),
-    PERMISSION_EXPIRE(70003,"登录状态过期！"),
+    PERMISSION_UNAUTHENTICATED(70001, "此操作需要登陆系统！"),
+    PERMISSION_UNAUTHORISE(70002, "权限不足，无权操作！"),
+    PERMISSION_EXPIRE(70003, "登录状态过期！"),
     PERMISSION_TOKEN_EXPIRED(70004, "token已过期"),
     PERMISSION_LIMIT(70005, "访问次数受限制"),
     PERMISSION_TOKEN_INVALID(70006, "无效token"),
     PERMISSION_SIGNATURE_ERROR(70007, "签名失败"),
+    USER_LOGIN_ELSEWHERE(70008, "用户在其他地方登陆，请重新登陆。"),
 
     /* 系统状态码 80001-89999 */
-    SYSTEM_REDIS_CONNECT(80000,"服务错误，redis服务没启动或者连接超时");
+    SYSTEM_REDIS_CONNECT(80000, "服务错误，redis服务没启动或者连接超时");
 
 
     //操作代码
     int code;
     //提示信息
     String message;
-    ResultCode(int code, String message){
+
+    ResultCode(int code, String message) {
         this.code = code;
         this.message = message;
     }

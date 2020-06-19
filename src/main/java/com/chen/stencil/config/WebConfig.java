@@ -17,7 +17,16 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         //拦截路径可自行配置多个 可用 ，分隔开
-        registry.addInterceptor(new JwtInterceptor()).addPathPatterns("/api/**");
+        registry.addInterceptor(jwtInterceptor()).addPathPatterns("/api/**");
+    }
+
+
+    /**
+     * 处理在拦截器加载前注入bean解决redis工具类空指针
+     */
+    @Bean
+    public JwtInterceptor jwtInterceptor() {
+        return new JwtInterceptor();
     }
 
     /**

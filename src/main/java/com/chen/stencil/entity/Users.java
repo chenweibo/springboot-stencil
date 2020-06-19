@@ -1,6 +1,8 @@
 package com.chen.stencil.entity;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.time.LocalDateTime;
 import java.io.Serializable;
@@ -34,18 +36,20 @@ public class Users implements Serializable {
     @ApiModelProperty(value = "邮箱")
     private String email;
 
-    private Integer emailV;
 
     @ApiModelProperty(value = "密码")
+    @TableField(exist=false)
     private String password;
 
     @ApiModelProperty(value = "是否管理员")
     private Integer isAdmin;
 
+    @TableField(fill = FieldFill.INSERT)
     @ApiModelProperty(value = "创建时间")
     private LocalDateTime createdAt;
 
     @ApiModelProperty(value = "更新时间")
+    @TableField(fill = FieldFill.UPDATE)
     private LocalDateTime updatedAt;
 
 
