@@ -96,8 +96,24 @@ public class UsersController {
     @ApiOperation(value = "获取个人信息", tags = {""}, notes = "")
     @GetMapping("/me")
     public Result getUser(HttpServletRequest request) {
+        Users users = usersService.getById(request.getAttribute("userId").toString());
+        users.setPassword(null);
+        return Result.SUCCESS(users);
+    }
 
-        return Result.SUCCESS(usersService.getById(request.getAttribute("userId").toString()));
+    @ApiOperation(value = "登出", tags = {""}, notes = "")
+    @GetMapping("/loginOut")
+    public Result loginOut(HttpServletRequest request) {
+
+        String token = request.getAttribute("token").toString();
+        String userId = request.getAttribute("userId").toString();
+        String hToken = redisUtils.hget("user_token", userId);
+        if (hToken.equals(token)) {
+            redisUtils.hdel("user_token", request.getAttribute("userId").toString());
+            return Result.SUCCESS();
+        }
+
+        return Result.SUCCESS();
     }
 
 

@@ -38,7 +38,6 @@ public class Users implements Serializable {
 
 
     @ApiModelProperty(value = "密码")
-    @TableField(exist=false)
     private String password;
 
     @ApiModelProperty(value = "是否管理员")

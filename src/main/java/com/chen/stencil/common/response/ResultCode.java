@@ -75,6 +75,7 @@ public enum ResultCode {
     PERMISSION_TOKEN_INVALID(70006, "无效token"),
     PERMISSION_SIGNATURE_ERROR(70007, "签名失败"),
     USER_LOGIN_ELSEWHERE(70008, "用户在其他地方登陆，请重新登陆。"),
+    USER_LOGIN_OUT(70009, "用户已经登出。"),
 
     /* 系统状态码 80001-89999 */
     SYSTEM_REDIS_CONNECT(80000, "服务错误，redis服务没启动或者连接超时");

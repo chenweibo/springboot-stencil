@@ -69,7 +69,11 @@ public class JwtInterceptor extends HandlerInterceptorAdapter {
 
         String userId = claims.get("userId", String.class);
         request.setAttribute("userId", userId);
+        request.setAttribute("token", token);
         String hToken = redisUtils.hget("user_token", userId);
+        if (hToken==null){
+            throw new CustomException(ResultCode.USER_LOGIN_OUT);
+        }
 
         if (!hToken.equals(token)) {
             throw new CustomException(ResultCode.USER_LOGIN_ELSEWHERE);
