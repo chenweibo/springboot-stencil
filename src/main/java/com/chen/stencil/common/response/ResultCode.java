@@ -8,6 +8,7 @@ public enum ResultCode {
     /* 错误状态码 */
     FAIL(-1,"操作失败！"),
 
+
     /* 参数错误：10001-19999 */
     PARAM_IS_INVALID(10001, "参数无效"),
     PARAM_IS_BLANK(10002, "参数为空"),
@@ -71,7 +72,11 @@ public enum ResultCode {
     PERMISSION_TOKEN_EXPIRED(70004, "token已过期"),
     PERMISSION_LIMIT(70005, "访问次数受限制"),
     PERMISSION_TOKEN_INVALID(70006, "无效token"),
-    PERMISSION_SIGNATURE_ERROR(70007, "签名失败");
+    PERMISSION_SIGNATURE_ERROR(70007, "签名失败"),
+
+    /* 系统状态码 80001-89999 */
+    SYSTEM_REDIS_CONNECT(80000,"服务错误，redis服务没启动或者连接超时");
+
 
     //操作代码
     int code;

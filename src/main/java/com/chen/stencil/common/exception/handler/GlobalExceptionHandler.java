@@ -5,6 +5,7 @@ import com.chen.stencil.common.response.Result;
 import com.chen.stencil.common.response.ResultCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.redis.connection.PoolException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -65,5 +66,17 @@ public class GlobalExceptionHandler {
         // 打印异常信息
         log.error("### 不可知的异常:{} ###", e.getMessage());
         return new Result(ResultCode.SYSTEM_INNER_ERROR);
+    }
+
+    /**
+     *  redis 连接异常
+     */
+    @ExceptionHandler(PoolException.class)
+    public Result handleRedisConnectException(Exception e){
+        //打印异常堆栈信息
+        e.printStackTrace();
+        // 打印异常信息
+        //log.error("### 不可知的异常:{} ###", e.getMessage());
+        return new Result(ResultCode.SYSTEM_REDIS_CONNECT);
     }
 }
