@@ -6,7 +6,6 @@ import com.chen.stencil.common.response.Result;
 import com.chen.stencil.common.response.ResultCode;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ResourceUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
