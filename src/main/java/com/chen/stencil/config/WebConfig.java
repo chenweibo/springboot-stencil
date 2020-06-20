@@ -18,6 +18,9 @@ public class WebConfig implements WebMvcConfigurer {
     @Value("${file.uploadFolder}")
     private String uploadFolder;
 
+    @Value("${file.clientUrl}")
+    private String clientUrl;
+
     /**
      * 添加拦截器
      */
@@ -42,7 +45,7 @@ public class WebConfig implements WebMvcConfigurer {
      */
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler(("/static/upload/**"))
+        registry.addResourceHandler((clientUrl))
                 .addResourceLocations("file:" + uploadFolder);
     }
 

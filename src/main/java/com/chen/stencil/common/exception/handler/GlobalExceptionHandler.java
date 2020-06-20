@@ -15,6 +15,7 @@ import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
 import java.util.List;
 
@@ -98,6 +99,18 @@ public class GlobalExceptionHandler {
         // 打印异常信息
         //log.error("### 不可知的异常:{} ###", e.getMessage());
         return new Result(ResultCode.METHOD_NOT_SUPPORT);
+    }
+
+    /**
+     * big file
+     */
+    @ExceptionHandler(MaxUploadSizeExceededException.class)
+    public Result MaxUploadSizeExceededException(Exception e) {
+        //打印异常堆栈信息
+        // e.printStackTrace();
+        // 打印异常信息
+        //log.error("### 不可知的异常:{} ###", e.getMessage());
+        return new Result(ResultCode.FILE_MAX_SIZE_OVERFLOW);
     }
 
 }
