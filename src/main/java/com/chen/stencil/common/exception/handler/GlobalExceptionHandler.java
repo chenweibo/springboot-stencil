@@ -28,7 +28,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(CustomException.class)
     public Result handleException(CustomException e) {
         // 打印异常信息
-        log.error("### 异常信息:{} ###", e.getMessage());
+       // log.error("### 异常信息:{} ###", e.getMessage());
         return new Result(e.getResultCode());
     }
 

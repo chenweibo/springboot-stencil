@@ -1,32 +1,31 @@
 package com.chen.stencil.controller;
 
 
-import cn.hutool.crypto.SecureUtil;
+import cn.hutool.core.net.multipart.UploadFile;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.chen.stencil.annotation.JwtIgnore;
 import com.chen.stencil.common.response.Result;
 import com.chen.stencil.common.response.ResultCode;
 import com.chen.stencil.entity.Users;
-import com.chen.stencil.mapper.UsersMapper;
 import com.chen.stencil.pojo.Audience;
+import com.chen.stencil.service.FileService;
 import com.chen.stencil.service.impl.UsersServiceImpl;
 import com.chen.stencil.utils.JwtTokenUtil;
 import com.chen.stencil.utils.RedisUtils;
 import com.chen.stencil.validator.RegisterValidator;
 import com.chen.stencil.validator.UserLoginValidator;
-import io.jsonwebtoken.Claims;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.alibaba.fastjson.JSONObject;
+import org.springframework.util.ResourceUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.Map;
 
 
 /**
@@ -48,6 +47,8 @@ public class UsersController {
     RedisUtils redisUtils;
     @Autowired
     UsersServiceImpl usersService;
+    @Autowired
+    FileService fileService;
 
     @ApiOperation(value = "用户登录", tags = {""}, notes = "")
     @PostMapping("/login")
@@ -114,6 +115,13 @@ public class UsersController {
         }
 
         return Result.SUCCESS();
+    }
+
+    @ApiOperation(value = "文件上传", tags = {""}, notes = "")
+    @PostMapping("/upload")
+    public Result upload(@RequestParam("file") MultipartFile file) throws java.io.IOException {
+
+        return fileService.upload(file);
     }
 
 

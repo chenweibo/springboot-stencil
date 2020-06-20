@@ -36,6 +36,7 @@ public enum ResultCode {
     /* 系统错误：40001-49999 */
     SYSTEM_INNER_ERROR(40001, "系统繁忙，请稍后重试"),
     UPLOAD_ERROR(40002, "系统异常，上传文件失败"),
+
     FILE_MAX_SIZE_OVERFLOW(40003, "上传尺寸过大"),
     FILE_ACCEPT_NOT_SUPPORT(40004, "上传文件格式不支持"),
     SET_UP_AT_LEAST_ONE_ADMIN(40005, "至少指定一个管理员"),
@@ -51,6 +52,7 @@ public enum ResultCode {
     DICT_EXIST_DEPEND(40014, "该字典数据存在详情依赖，不允许删除"),
     DICT_DETAIL_LOCK(40015, "该字典数据被锁定，不允许修改或删除"),
     DEPART_CODE_EXISTED_WITH_ARGS(40016, "组织机构编码【{0}】系统已存在"),
+    FILE_EMPTY(400017, "文件不允许为空"),
 
     /* 数据错误：50001-599999 */
     RESULT_DATA_NONE(50001, "数据未找到"),

@@ -1,15 +1,22 @@
 package com.chen.stencil.config;
 
 import com.chen.stencil.interceptor.JwtInterceptor;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import org.springframework.beans.factory.annotation.Value;
+
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
+
+
+    @Value("${file.uploadFolder}")
+    private String uploadFolder;
 
     /**
      * 添加拦截器
@@ -27,6 +34,16 @@ public class WebConfig implements WebMvcConfigurer {
     @Bean
     public JwtInterceptor jwtInterceptor() {
         return new JwtInterceptor();
+    }
+
+
+    /**
+     * 访问外部静态资源配置
+     */
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler(("/static/upload/**"))
+                .addResourceLocations("file:" + uploadFolder);
     }
 
     /**
